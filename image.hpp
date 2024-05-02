@@ -5,6 +5,9 @@
 #include <vector>
 #include "filter.hpp"
 
+/**
+ * \brief The image API.
+ */
 namespace Image {
     /**
      * \brief Reads and checks an image file.
@@ -29,6 +32,15 @@ namespace Image {
         return image;
     }
 
+    /**
+     * \brief Checks if a given file is an image.
+     * 
+     * \param[in] filename The path to the file.
+     * 
+     * \returns true if the file is an image.
+     * 
+     * \note Only file formats are png, jpg and jpeg. 
+     */
     bool isImage(const cv::String &filename) {
         std::size_t lastDotIndex = filename.find_last_of(".");
         
@@ -43,7 +55,13 @@ namespace Image {
         return extension == "png" || extension == "jpeg" || extension == "jpg";
     }
 
-    void display(cv::Mat image, std::vector<Filter::filter> filters = {}) {
+    /**
+     * \brief Displays an image in a window and apply all given filters.
+     * 
+     * \param[in] image The image to display.
+     * \param[in] filters All filters to apply on image.
+     */
+    void display(cv::Mat image, const std::vector<Filter::filter> filters = {}) {
         for (Filter::filter filter: filters) {
             image = filter(image);
         }
