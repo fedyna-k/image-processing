@@ -11,15 +11,21 @@ int main(int argc, char** argv) {
     CLI::OptionMap options = CLI::processOptions(argc, argv);
     CLI::Args args = CLI::getArgs(argc, argv);
 
-    if (args.size() != 1) {
-        std::cout << CLI::help_message << std::endl;
-        return -1;
-    }
-
     // Get all the filters according to the arguments
     std::vector<Filter::filter> filters = std::vector<Filter::filter>();
     for (auto option: options) {
         if (option.second) {
+            // Options
+            if (option.first.compare("--help") == 0) {
+                std::cout << CLI::help_message << std::endl;
+                return -1;
+            }
+            if (option.first.compare("--version") == 0) {
+                std::cout << CLI::version_number << std::endl;
+                return 0;
+            }
+            
+            // Parameters
             if (option.first.compare("-gs") == 0) {
                 filters.push_back(Filter::grayscale);
             }
@@ -33,6 +39,11 @@ int main(int argc, char** argv) {
                 filters.push_back(Filter::edgeDetection);
             }
         }
+    }
+
+    if (args.size() != 1) {
+        std::cout << CLI::help_message << std::endl;
+        return -1;
     }
 
     // Create a new window
