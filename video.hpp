@@ -88,10 +88,10 @@ namespace Video {
             frame = video[i];
 
             for (Filter::filter filter: filters) {
-                frame = filter(frame);
+                frame = filter(&frame);
             }
 
-            cv::imshow("Video", frame);
+            cv::imshow("OpenCV", frame);
 
             if (cv::waitKey(25) == 27) {
                 break;

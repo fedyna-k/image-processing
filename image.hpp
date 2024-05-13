@@ -63,11 +63,11 @@ namespace Image {
      */
     void display(cv::Mat image, const std::vector<Filter::filter> filters = {}) {
         for (Filter::filter filter: filters) {
-            image = filter(image);
+            image = filter(&image);
         }
 
         while (true) {
-            cv::imshow("Display Image", image);
+            cv::imshow("OpenCV", image);
             
             if (cv::waitKey(25) == 27) {
                 break;

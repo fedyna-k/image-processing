@@ -7,8 +7,7 @@
 #include "cli.hpp"
 
 int main(int argc, char** argv) {
-    // Get file
-    
+    // Get file and arguments
     CLI::OptionMap options = CLI::processOptions(argc, argv);
     CLI::Args args = CLI::getArgs(argc, argv);
 
@@ -17,12 +16,18 @@ int main(int argc, char** argv) {
         return -1;
     }
 
+    // Get all the filters according to the arguments
     std::vector<Filter::filter> filters = std::vector<Filter::filter>();
-
     for (auto option: options) {
         if (option.second) {
             if (option.first.compare("-gs") == 0) {
                 filters.push_back(Filter::grayscale);
+            }
+            if (option.first.compare("-gsl") == 0) {
+                filters.push_back(Filter::grayscaleLine);
+            }
+            if (option.first.compare("-gse") == 0) {
+                filters.push_back(Filter::grayscaleExpansion);
             }
             if (option.first.compare("-ed") == 0) {
                 filters.push_back(Filter::edgeDetection);
@@ -30,6 +35,10 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Create a new window
+    cv::namedWindow("OpenCV");
+
+    // Display the right type of data with the filters
     if (Image::isImage(args[0])) {
         cv::Mat image = Image::read(args[0]);
         Image::display(image, filters);
