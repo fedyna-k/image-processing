@@ -26,13 +26,19 @@ namespace Histogram {
             cv::Mat image = *reinterpret_cast<cv::Mat *>(userdata);
             int imageWidth = image.size().width;
 
-            // Add histogram
-            cv::Mat hist = cv::Mat(256, imageWidth, CV_8U, 0xffffff);
-            cv::line(hist, {0, image.at<uchar>(y, 0)}, {0, image.at<uchar>(y, 0)}, 0);
+            // Create profile
+            cv::Mat Profile = cv::Mat(256, imageWidth, CV_8U, cv::Scalar(255));
+
+            int valueBefore = image.at<uchar>(y, 0);
+            int valueAfter = image.at<uchar>(y, 0);
+            cv::line(Profile, {0, 256 - valueBefore}, {0, 256 - valueAfter}, 0);
+
             for (int i = 1 ; i < imageWidth ; i++) {
-                cv::line(hist, {i, 256 - image.at<uchar>(y, i - 1)}, {i, 256 - image.at<uchar>(y, i)}, 0);
+                valueBefore = image.at<uchar>(y, i - 1);
+                valueAfter = image.at<uchar>(y, i);
+                cv::line(Profile, {i, 256 - valueBefore}, {i, 256 - valueAfter}, 0);
             }
-            cv::imshow("Histogram", hist);
+            cv::imshow("Profile", Profile);
 
             // Draw red line on image
             cv::Mat cloned = image.clone();
@@ -55,15 +61,16 @@ namespace Histogram {
         int histSize[] = {256};
         float range[] = {0, 256};
         const float* ranges[] = {range};
+
         cv::calcHist(&image, 1, channels, cv::Mat(), histData, 1, histSize, ranges);
 
         // Normalize it
-        cv::normalize(histData, histData, 0, 256, cv::NORM_MINMAX, -1, cv::Mat());
+        cv::normalize(histData, histData, 0, 256, cv::NORM_MINMAX);
 
         // Create the histogram
         cv::Mat hist = cv::Mat(256, 256, CV_8U, 0xffffff);
         for (int i = 0 ; i < 256 ; i++) {
-            cv::line(hist, {i, 256}, {i, 256 - histData.at<uchar>(i)}, 0);
+            cv::line(hist, {i, 256}, {i, 255 - (uchar)histData.at<float>(i)}, 0);
         }
 
         // Display it
