@@ -67,7 +67,7 @@ namespace Filter {
         cv::Mat expanded = image->clone();
         
         // Search the minimum and maximum
-        int min = 0;
+        int min = 255;
         int max = 0;
         for (int y = 0 ; y < expanded.rows ; y++) {
             for (int x = 0 ; x < expanded.cols ; x++) {
