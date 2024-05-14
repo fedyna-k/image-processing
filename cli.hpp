@@ -12,7 +12,7 @@ namespace CLI {
     typedef std::unordered_map<std::string, bool> OptionMap;
     typedef std::vector<std::string> Args;
 
-    std::string help_message = "\x1b[1mUsage\x1b[0m: pic [option|...parameters] <path>\n\n"
+    std::string help_message = "\x1b[1mUsage\x1b[0m: pia [option|...parameters] <path>\n\n"
                                "\x1b[1mOptions\x1b[0m:\n"
                                "  --help     Displays this message\n"
                                "  --version  Displays the version message\n\n"
