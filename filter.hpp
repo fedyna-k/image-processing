@@ -81,7 +81,7 @@ namespace Filter {
         for (int y = 0 ; y < expanded.rows ; y++) {
             for (int x = 0 ; x < expanded.cols ; x++) {
                 int coef = expanded.at<uchar>(y, x);
-                expanded.at<uchar>(y, x) = 255 * (coef - min) / (max - min);
+                expanded.at<uchar>(y, x) = (uchar)(255 * (coef - min) / (1. * (max - min)));
             }
         }
 

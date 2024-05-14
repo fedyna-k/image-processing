@@ -62,9 +62,8 @@ namespace Histogram {
 
         // Create the histogram
         cv::Mat hist = cv::Mat(256, 256, CV_8U, 0xffffff);
-        cv::line(hist, {0, histData.at<uchar>(0)}, {0, histData.at<uchar>(0)}, 0);
-        for (int i = 1 ; i < 256 ; i++) {
-            cv::line(hist, {i, 256 - histData.at<uchar>(i - 1)}, {i, 256 - histData.at<uchar>(i)}, 0);
+        for (int i = 0 ; i < 256 ; i++) {
+            cv::line(hist, {i, 256}, {i, 256 - histData.at<uchar>(i)}, 0);
         }
 
         // Display it
